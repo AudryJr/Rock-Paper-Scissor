@@ -5,70 +5,64 @@ function computerChoice() {
     let x = Math.floor(Math.random() * 9) + 1; // Génère un nombre entre 1 et 9
     
     if ([1, 4, 7].includes(x)) {
-        return "r";
+        return "rock";
     } else if ([2, 5, 8].includes(x)) {
-        return "p";
+        return "paper";
     } else {
-        return "s";
+        return "scissor";
     }
 }
 
-// Choice map of the player
-const choice = new Map();
-choice.set("r", "Rock");
-choice.set("p", "Paper");
-choice.set("s", "Scissor");
 
-console.log('This is the Rock-Paper-Scissors game, enjoy!');
+function playGame(x_input){
 
-let x_input = "a"; 
-let win_count = 0; 
-let loss_count = 0;
-let draw_count = 0;
-let go = 0; 
 
-while (x_input !== 'q') {
-    go = 0;
+    let win_count = 0; 
+    let loss_count = 0;
+    let draw_count = 0;
     
-    // Boucle de validation de la saisie
-    while (go === 0) {
-        x_input = prompt("Choose a letter among r (:rock), p (:Paper), s (:Scissor) or q to quit the game");
+    let compChoice = computerChoice();
+    
+    document.getElementById("affichage2").textContent = `...${x_input}`;
 
-        x_input = x_input.toLowerCase();
-
-        if (['q', 'r', 'p', 's'].includes(x_input)) {
-            go = 1;  
-        } else {
-            console.log('Type a valid letter among available options.');
-        }
-    }
-
-    if (x_input !== 'q') {
-        const compChoice = computerChoice();
-        const playerFormatted = choice.get(x_input);
-        const compFormatted = choice.get(compChoice);
-
-        // Affichage des choix
-        console.log(`Your choice: ${playerFormatted} vs Computer choice: ${compFormatted}`);
-		console.log('');
-        // Logique de victoire / égalité / défaite
-        if (
-            (x_input === 'r' && compChoice === 's') ||
-            (x_input === 'p' && compChoice === 'r') ||
-            (x_input === 's' && compChoice === 'p')
+    // Logique de victoire / égalité / défaite
+    if (
+        (x_input === 'rock' && compChoice === 'scissor') ||
+        (x_input === 'paper' && compChoice === 'rock') ||
+        (x_input === 'scissor' && compChoice === 'paper')
         ) {
-            console.log("You win this round!");
+            document.getElementById("affichage").textContent  = `..You won! You played ${x_input}, and the computer ${compChoice}`;
             win_count++;
         } else if (x_input === compChoice) {
-            console.log("It's a draw!");
+            document.getElementById("affichage").textContent = `..Draw! You played ${x_input}, and the computer ${compChoice}`;
             draw_count++;
         } else {
-            console.log("You lose this round!");
+            document.getElementById("affichage").textContent = `..Sorry, you lose! you played ${x_input}, and the computer ${compChoice}`;
             loss_count++;
         }
 
-        console.log(`You have ${win_count} wins, ${loss_count} losses, and ${draw_count} draws.\n`);
-    }
 }
 
-console.log("Thanks for playing!");
+
+   
+const bouton1 = document.getElementById('rock');
+const bouton2 = document.getElementById('paper');
+const bouton3 = document.getElementById('scissor');
+
+
+bouton1.addEventListener('click', () => { x_input = 'rock';
+    console.log('you pressed rock');
+});
+bouton2.addEventListener('click', () => { x_input = 'paper';
+    console.log('you pressed paper');
+});
+bouton3.addEventListener('click', () => { x_input = 'scissor';
+    console.log('you pressed scissor');
+});
+
+
+const bouton4 = document.getElementById('play');
+bouton4.addEventListener('click', ()=> {
+    playGame(x_input);
+});
+
